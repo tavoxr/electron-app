@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Overlock:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container">
+
+
+
+
+    <div class="row mt-4">
+      
+      <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <div class="container">
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarTogglerDemo01"
+            aria-controls="navbarTogglerDemo01"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+            <a class="navbar-brand" href="#">
+              Dashboard
+            </a>
+            <!-- {authMenu} -->
+          </div>
+          <!-- {authLinks} -->
+        </div>
+      </nav>
+
+
+
+
+
+        <div class="col-12 col-md-6 col-lg-6 mx-auto">
+        
+    <div class="card card-body mt-4 mb-2 ">
+        <h2 class="text-center">Add Product</h2>
+        <form>
+            <div class="row g-3">
+                <div class="col">
+                    <label class="form-label " for="nameProduct">Name</label>
+                    <input
+                      class="form-control"
+                      type="text"
+                      name="name"
+                      id="nameProduct"
+                    />
+            </div>
+            <div class="col">
+                <label class="form-label" for="price">Price</label>
+                <input
+                  class="form-control"
+                  type="number"
+                  step="0.01"
+                  name="price"
+                  id="price"
+                />
+                </div>
+            </div>
+
+            <div class="row g-3">
+                <div class="col">
+                    <label class="form-label" for="category">Category</label>
+                    <input
+                      class="form-control"
+                      type="text"
+                      name="category"
+                      id="category"
+                    />
+                </div>
+                <div class="col">
+                    <label class="form-label" for="quantity">Quantity</label>
+                    <input
+                      class="form-control"
+                      type="number"
+                      name="quantity"
+                      id="quantity"
+                    />
+                </div>
+            </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="description">Description</label>
+            <textarea
+              class="form-control"
+              name="description"
+              id="description"
+            ></textarea>
+          </div>
+
+          
+       
+          <div class="mb-1">
+            <button type="submit" class="btn btn-primary form-control mt-3">
+              Add New Product
+            </button>
+          </div>
+          <div class="mb-3">
+            <button type="submit" to="/products" class="btn btn-danger form-control mt-3" id="btnCancel">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+
+</div>
+
+</div>
+     <script type="module" src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script  type="module" src="../js/productForm.js"></script>
+</body>
+</html>

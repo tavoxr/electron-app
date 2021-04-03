@@ -194,6 +194,39 @@ ipcMain.on('cerrarFormProduct', (e, window) => {
 
 ipcMain.on('abrirOrderForm', (e, msg) => {
     createOrderFormWindow()
+
+    connection.promise().query(`SELECT * FROM Product;`)
+        .then(([results, fields]) => {
+            console.log(results)
+            orderFormWindow.webContents.on('did-finish-load', function () {
+               orderFormWindow.webContents.send('getAllProducts', results);
+
+            });
+        }
+
+        ).catch((err) => {
+
+        })
+
+
+
+connection.promise().query('SELECT * FROM User;')
+.then(([results, fields]) => {
+    console.log(results)
+    orderFormWindow.webContents.on('did-finish-load', function () {
+        orderFormWindow.webContents.send('getAllUsers', results);
+
+    });
+
+
+
+
+    // registerWindow.webContents.send('getUsuarios', results)
+}
+
+).catch((err) => {
+
+})
 })
 
 ipcMain.on('cerrarOrderForm', (e, msg) => {
@@ -369,7 +402,11 @@ ipcMain.on('registrarUsuario', (e, employee) => {
     })
 })
 
-
+ipcMain.on('registrarOrden', (e,order)=>{
+    connection.query(`INSERT INTO Orders(idProduct,idEmployee,quantity) VALUES(${order.idProduct},${order.idEmployee},${order.quantity});`, (err, results, fields) => {
+        console.log('ORDER CREATED')
+    })
+})
 // ipcMain.on('getMyProductsValidation', (e,msg)=>{
 
 
@@ -403,6 +440,28 @@ ipcMain.on('enviarProductsDesdeElForm', (e, msg) => {
 
         })
 })
+
+
+ipcMain.on('regresarAOrders', (e, msg) => {
+    ordersWindow.close()
+    createOrdersWindow()
+    orderFormWindow.close()
+
+
+    connection.promise().query(`SELECT * FROM Orders WHERE idEmployee = ${userEmpleado};`)
+        .then(([results, fields]) => {
+            console.log(results)
+            ordersWindow.webContents.on('did-finish-load', function () {
+                ordersWindow.webContents.send('getAllOrders', results);
+
+            });
+        }
+
+        ).catch((err) => {
+
+        })
+})
+
 
 
 /*==========================================================================================================

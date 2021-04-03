@@ -21,22 +21,18 @@
         <form>
             <div class="mb-3">
                     <label class="form-label " for="nameProduct">Product</label>
-                    <input
-                      class="form-control"
-                      type="text"
-                      name="name"
-                      id="nameProduct"
-                    />
+                    <select class="form-select" aria-label="Default select example" id="product" required>
+                    
+                    </select>
+                    
             </div>
          
             <div class="mb-3">
                     <label class="form-label" for="category">Proveedor</label>
-                    <input
-                      class="form-control"
-                      type="text"
-                      name="category"
-                      id="category"
-                    />
+                    <select class="form-select" aria-label="Default select example" id="employee" required>
+                    
+                    </select>
+                    
             </div>
                 <div class="mb-3">
                     <label class="form-label" for="quantity">Quantity</label>
@@ -45,13 +41,14 @@
                       type="number"
                       name="quantity"
                       id="quantity"
+                      required
                     />
                 </div>
             
           
        
           <div class="mb-1">
-            <button type="submit" class="btn btn-primary form-control mt-3">
+            <button type="submit" class="btn btn-primary form-control mt-3" id="btnSubmit">
               Make Order
             </button>
           </div>

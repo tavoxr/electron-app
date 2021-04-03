@@ -33,13 +33,27 @@ btnReturnToLogin.addEventListener('click',()=>{
 
 btnSubmit.addEventListener('click',(e)=>{
         e.preventDefault()
-
+        let idEmployeeValidated =false
+        let userNameValidated = false
+        
         if(userName.value === ""){
             swal({
                 title:'Invalid Username',
                 text:'Enter a  Username',
                 icon:'warning'
             })
+        }else{
+            userNameValidated = true
+        }
+
+        if(idEmployee.value ==""){
+            swal({
+                title:'Invalid idEmployee',
+                text:'Enter a  valid idEmployee',
+                icon:'warning'
+            })
+        }else{
+            idEmployeeValidated = true
         }
  
         if(!password1.value.match(exprPass)){
@@ -68,16 +82,11 @@ btnSubmit.addEventListener('click',(e)=>{
         usuarios.map(user=>{
             if(user.idEmployee == idEmployee.value){
                 idEmployeeEqual = true
-            }else{
-                swal({
-                    title:"idEmployee already exists",
-                    icon:'warning'
-                })
             }
         })
 
      
-                        if(passValidated && !idEmployeeEqual ){
+                        if((passValidated && !idEmployeeEqual)&&(idEmployeeValidated && userNameValidated)){
                             let  employee = {
                                 name: userName.value ,
                                 idEmployee: idEmployee.value,
@@ -96,7 +105,7 @@ btnSubmit.addEventListener('click',(e)=>{
                             // window.api.getMyProducts()
 
                                 
-                            }else{
+                        }else{
                                 swal({
                                     title:"This idEmployee already exists",
                                     icon:'warning'

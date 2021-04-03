@@ -45,7 +45,11 @@ btnSubmit.addEventListener('click',(e)=>{
         window.api.send('loginUser',userIdEmpleado)
 
     }else{
-        console.log('error no coinciden a los datos registrados')
+        swal({
+            title:'Invalid password or idEmployee ',
+            text:'You should have been registered before, Try again',
+            icon:'warning'
+        })
     }
 
 })

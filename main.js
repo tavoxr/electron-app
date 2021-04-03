@@ -217,11 +217,6 @@ connection.promise().query('SELECT * FROM User;')
         orderFormWindow.webContents.send('getAllUsers', results);
 
     });
-
-
-
-
-    // registerWindow.webContents.send('getUsuarios', results)
 }
 
 ).catch((err) => {
@@ -323,18 +318,11 @@ ipcMain.on('enviarAlLogin', (e, msg) => {
                 mainWindow.webContents.send('getUsuariosLogin', results);
 
             });
-
-
-
-
-            // registerWindow.webContents.send('getUsuarios', results)
         }
 
         ).catch((err) => {
 
         })
-
-
 })
 
 ipcMain.on('returnRegisterToLogin', (e, msg) => {
@@ -348,11 +336,6 @@ ipcMain.on('returnRegisterToLogin', (e, msg) => {
                 mainWindow.webContents.send('getUsuariosLogin', results);
 
             });
-
-
-
-
-            // registerWindow.webContents.send('getUsuarios', results)
         }
 
         ).catch((err) => {
@@ -373,11 +356,6 @@ ipcMain.on('returnLoginToRegister', (e, msg) => {
                 registerWindow.webContents.send('getUsuarios', results);
 
             });
-
-
-
-
-            // registerWindow.webContents.send('getUsuarios', results)
         }
 
         ).catch((err) => {
@@ -407,11 +385,7 @@ ipcMain.on('registrarOrden', (e,order)=>{
         console.log('ORDER CREATED')
     })
 })
-// ipcMain.on('getMyProductsValidation', (e,msg)=>{
 
-
-
-// })
 
 ipcMain.on('registrarProducto', (e, product) => {
 
@@ -467,48 +441,7 @@ ipcMain.on('regresarAOrders', (e, msg) => {
 /*==========================================================================================================
                                              END IPCMAIN                                            
 ============================================================================================================*/
-/*==========================================================================================================
-                                             CONEXION MYSQL                                            
-============================================================================================================*/
 
-
-// connection.query('SELECT * FROM Usuario;',(err,results,fields)=>{
-//     console.log(results)
-// })
-
-// connection.promise().query('SELECT * FROM User;')
-// .then(([results,fields])=>{
-//     console.log(results)
-//     registerWindow.webContents.on('did-finish-load', function () {
-//         registerWindow.webContents.send('getUsuarios', results);
-
-//     });
-
-
-
-
-// registerWindow.webContents.send('getUsuarios', results)
-// }
-
-// ).catch((err)=>{
-
-// })
-
-
-
-
-// connection.promise().query('SELECT * FROM Product;')
-// .then(([results,fields])=>{
-//     console.log(results)
-//     registerWindow.webContents.on('did-finish-load', function () {
-//         registerWindow.webContents.send('getProducts', results);
-//     });
-//     // registerWindow.webContents.send('getUsuarios', results)
-// }
-
-// ).catch((err)=>{
-
-// })
 
 
 connection.promise().query('SELECT * FROM User;')
@@ -518,11 +451,6 @@ connection.promise().query('SELECT * FROM User;')
             mainWindow.webContents.send('getUsuariosLogin', results);
 
         });
-
-
-
-
-        // registerWindow.webContents.send('getUsuarios', results)
     }
 
     ).catch((err) => {
@@ -530,6 +458,12 @@ connection.promise().query('SELECT * FROM User;')
     })
 
 
-/*==========================================================================================================
-                                             END CONEXION MYSQL
-============================================================================================================*/
+
+
+    ipcMain.on('logOutProducts', (e, msg)=>{
+        productsWindow.close()  
+    })
+
+    ipcMain.on('logOutOrders', (e, msg)=>{
+        ordersWindow.close()
+    })

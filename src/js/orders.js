@@ -2,7 +2,7 @@ const myProducts  = document.querySelector('#myProducts')
 const myOrders  = document.querySelector('#myOrders')
 const btnPlaceOrder  = document.querySelector('#btn-placeOrder')
 const tableBody = document.querySelector('#table-body')
-
+const logOut = document.querySelector('#logOut')
 
 const thisWindow = 'Orders'
 
@@ -41,5 +41,12 @@ window.addEventListener("DOMContentLoaded",()=>{
         
 
     })
+
+})
+
+
+logOut.addEventListener('click',()=>{
+
+    window.api.send('logOutOrders','logout')
 
 })

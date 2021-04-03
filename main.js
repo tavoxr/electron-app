@@ -1,6 +1,7 @@
 const {app, BrowserWindow, ipcMain} = require('electron')
 const path = require('path')
 const mysql =  require('mysql2')
+const { create } = require('domain')
 
 if(process.env.NODE_ENV !== 'production'){
     require('electron-reload')(__dirname,{
@@ -23,6 +24,8 @@ function createMainWindow(){
         width:800,
         height:600,
         webPreferences:{
+            // nodeIntegration: true,
+            // contextIsolation: true,
             preload: path.join(__dirname, 'preload.js')
         }
     })
@@ -31,9 +34,9 @@ function createMainWindow(){
 }
 
 app.whenReady().then(()=>{
-    // createMainWindow()
-    createRegisterWindow()
-    createProductsWindow()
+    createMainWindow()
+    // createRegisterWindow()
+    // createProductsWindow()
 
     app.on('activate', ()=>{
         if(BrowserWindow.getAllWindows().length === 0){
@@ -41,9 +44,9 @@ app.whenReady().then(()=>{
         }
     })
 
-    mainWindow.webContents.on('did-finish-load',()=>{
-        mainWindow.webContents.send('saludo', 'Hola Mundo')
-    })
+    // mainWindow.webContents.on('did-finish-load',()=>{
+    //     mainWindow.webContents.send('saludo', 'Hola Mundo')
+    // })
 })
 
 app.on('window-all-closed',()=>{
@@ -61,6 +64,8 @@ function createProductsWindow(){
         width:800,
         height:600,
         webPreferences:{
+            // nodeIntegration: true,
+            // contextIsolation: true,
             preload: path.join(__dirname, 'preload.js')
         }
     })
@@ -73,6 +78,8 @@ function createRegisterWindow(){
         width:600,
         height:600,
         webPreferences:{
+            // nodeIntegration: true,
+            // contextIsolation: true,
             preload: path.join(__dirname, 'preload.js')
         }
     })
@@ -84,6 +91,8 @@ function createProductFormWindow(){
         width:600,
         height:600,
         webPreferences:{
+            // nodeIntegration: true,
+            // contextIsolation: true,
             preload: path.join(__dirname, 'preload.js')
         }
     })
@@ -96,6 +105,8 @@ function createOrderFormWindow(){
         width:600,
         height:600,
         webPreferences:{
+            // nodeIntegration: true,
+            // contextIsolation: true,
             preload: path.join(__dirname, 'preload.js')
         }
     })
@@ -108,6 +119,8 @@ function createOrdersWindow(){
         width:800,
         height:600,
         webPreferences:{
+            // nodeIntegration: true,
+            // contextIsolation: true,
             preload: path.join(__dirname, 'preload.js')
         }
     })
@@ -162,13 +175,85 @@ ipcMain.on('redirigirAProducts',(e,window)=>{
         ordersWindow.close()        
     }
 })
-/*==========================================================================================================
-                                             END IPCMAIN                                            
-============================================================================================================*/
-/*==========================================================================================================
-                                             CONEXION MYSQL                                            
-============================================================================================================*/
 
+ipcMain.on('registerToProducts',(e, msg)=>{
+    createProductsWindow()
+    registerWindow.close()
+})
+
+ipcMain.on('enviarAlLogin',(e, msg)=>{
+    createMainWindow()
+    registerWindow.close()
+
+connection.promise().query('SELECT * FROM User;')
+.then(([results,fields])=>{
+    console.log(results)
+    mainWindow.webContents.on('did-finish-load', function () {
+        mainWindow.webContents.send('getUsuariosLogin', results);
+        
+    });
+
+   
+
+
+    // registerWindow.webContents.send('getUsuarios', results)
+}
+
+).catch((err)=>{
+
+})
+
+    
+})
+
+ipcMain.on('returnRegisterToLogin',(e,msg)=>{
+    createMainWindow()
+    registerWindow.close()
+
+connection.promise().query('SELECT * FROM User;')
+.then(([results,fields])=>{
+    console.log(results)
+    mainWindow.webContents.on('did-finish-load', function () {
+        mainWindow.webContents.send('getUsuariosLogin', results);
+        
+    });
+
+   
+
+
+    // registerWindow.webContents.send('getUsuarios', results)
+}
+
+).catch((err)=>{
+
+})
+
+})
+
+
+ipcMain.on('returnLoginToRegister',(e,msg)=>{
+    createRegisterWindow()
+    mainWindow.close()
+
+connection.promise().query('SELECT * FROM User;')
+.then(([results,fields])=>{
+    console.log(results)
+    registerWindow.webContents.on('did-finish-load', function () {
+        registerWindow.webContents.send('getUsuarios', results);
+        
+    });
+
+   
+
+
+    // registerWindow.webContents.send('getUsuarios', results)
+}
+
+).catch((err)=>{
+
+})
+    
+})
 const  connection =  mysql.createConnection({
     user: 'root',
     host: 'localhost',
@@ -177,13 +262,72 @@ const  connection =  mysql.createConnection({
 
 })
 
-// connection.query('SELECT * FROM Employee;',(err,results,fields)=>{
+
+ipcMain.on('registrarUsuario',(e,employee)=>{
+
+    console.log('employee', employee)
+    connection.query(`INSERT INTO User(idEmployee,name,password) VALUES(${employee.idEmployee},"${employee.name}","${employee.password}");`,(err,results,fields)=>{
+            console.log('USER CREATED')
+        })
+})
+
+var userEmpleado
+ipcMain.on('loginUser',(e,userIdEmpleado)=>{
+    createProductsWindow()
+
+    mainWindow.close()
+    userEmpleado = userIdEmpleado
+    console.log('employee', userIdEmpleado)
+  
+
+connection.promise().query(`SELECT * FROM Product WHERE idEmployee = ${userIdEmpleado};`)
+.then(([results,fields])=>{
+    console.log(results)
+    productsWindow.webContents.on('did-finish-load', function () {
+        productsWindow.webContents.send('getMyProducts', results);
+        
+    });
+
+   
+
+
+    // registerWindow.webContents.send('getUsuarios', results)
+}
+
+).catch((err)=>{
+
+})
+
+
+        
+})
+
+
+
+/*==========================================================================================================
+                                             END IPCMAIN                                            
+============================================================================================================*/
+/*==========================================================================================================
+                                             CONEXION MYSQL                                            
+============================================================================================================*/
+
+
+// connection.query('SELECT * FROM Usuario;',(err,results,fields)=>{
 //     console.log(results)
 // })
 
-// connection.promise().query('INSERT INTO Employee(name,password)VALUES("Rosa","eva3");')
+// connection.promise().query('SELECT * FROM User;')
 // .then(([results,fields])=>{
-//   console.log(results)
+//     console.log(results)
+//     registerWindow.webContents.on('did-finish-load', function () {
+//         registerWindow.webContents.send('getUsuarios', results);
+        
+//     });
+
+   
+
+
+    // registerWindow.webContents.send('getUsuarios', results)
 // }
 
 // ).catch((err)=>{
@@ -192,6 +336,38 @@ const  connection =  mysql.createConnection({
 
 
 
+
+// connection.promise().query('SELECT * FROM Product;')
+// .then(([results,fields])=>{
+//     console.log(results)
+//     registerWindow.webContents.on('did-finish-load', function () {
+//         registerWindow.webContents.send('getProducts', results);
+//     });
+//     // registerWindow.webContents.send('getUsuarios', results)
+// }
+
+// ).catch((err)=>{
+
+// })
+
+
+connection.promise().query('SELECT * FROM User;')
+.then(([results,fields])=>{
+    console.log(results)
+    mainWindow.webContents.on('did-finish-load', function () {
+        mainWindow.webContents.send('getUsuariosLogin', results);
+        
+    });
+
+   
+
+
+    // registerWindow.webContents.send('getUsuarios', results)
+}
+
+).catch((err)=>{
+
+})
 /*==========================================================================================================
                                              END CONEXION MYSQL                                          
 ============================================================================================================*/

@@ -5,15 +5,15 @@ const btnPlaceOrder  = document.querySelector('#btn-placeOrder')
 const thisWindow = 'Orders'
 
 myProducts.addEventListener('click',()=>{
-    window.api.redirigirAProducts(thisWindow)
+    window.api.send('redirigirAProducts',thisWindow)
 })
 
 
 myOrders.addEventListener('click',()=>{
-    window.api.redirigirAOrders(thisWindow)
+    window.api.send('redirigirAOrders',thisWindow)
 })
 
 btnPlaceOrder.addEventListener('click',()=>{
-    window.api.abrirOrderForm()
+    window.api.send('abrirOrderForm','abrir')
 })
 

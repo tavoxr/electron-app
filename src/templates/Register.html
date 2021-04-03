@@ -19,7 +19,7 @@
             <div class="col-12 col-md-6 col-lg-6 mx-auto">
                 <div class="card card-body text-center  ">
                     <form class="form" novalidate>
-                        <h2 class="mb-3">Register</h2>
+                        <h2 class="mb-3">Sign Up</h2>
                         <div class="mb-3">
                             <label for="name" class="form-label" id="lbl-name">Name</label>
                             <input type="text" placeholder="Name" id="name" maxlength=100 class="form-control" required>
@@ -41,8 +41,8 @@
                                 class="form-control" required minlength="8">
                         </div>
 
-                        <button type="submit" class="btn btn-primary w-100 mt-2 btn-submit" >Sign Up</button>
-
+                        <button type="submit" class="btn btn-primary w-100 mt-2 mb-4 btn-submit" >Sign Up</button>
+                        <small class="" > if you already have an account return to <a class="btn btn-sm btn-secondary" id="btnReturnToLogin">Sign In</a></small>
                     </form>
                 </div>
             </div>
@@ -54,7 +54,9 @@
         integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
         crossorigin="anonymous"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="../js/register.js"></script>
+    <script type="module" src="../js/register.js">
+    
+    </script>
 </body>
 
 </html>

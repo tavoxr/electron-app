@@ -37,6 +37,7 @@ app.whenReady().then(()=>{
     createMainWindow()
     // createRegisterWindow()
     // createProductsWindow()
+    // createProductFormWindow()
 
     app.on('activate', ()=>{
         if(BrowserWindow.getAllWindows().length === 0){
@@ -142,9 +143,48 @@ ipcMain.on('saludo',(e,msg)=>{
     })
 })
 
+
+var userEmpleado
+ipcMain.on('loginUser',(e,userIdEmpleado)=>{
+    createProductsWindow()
+
+    mainWindow.close()
+    userEmpleado = userIdEmpleado
+    console.log('employee', userIdEmpleado)
+  
+
+connection.promise().query(`SELECT * FROM Product WHERE idEmployee = ${userIdEmpleado};`)
+.then(([results,fields])=>{
+    console.log(results)
+    productsWindow.webContents.on('did-finish-load', function () {
+        productsWindow.webContents.send('getMyProducts', results);
+        
+    });
+}
+
+).catch((err)=>{
+
+})
+ 
+})
+
 ipcMain.on('abrirFormProduct', (e,msg)=>{
 
     createProductFormWindow()
+
+connection.promise().query(`SELECT * FROM Product WHERE idEmployee = ${userEmpleado};`)
+.then(([results,fields])=>{
+    console.log(results)
+    productFormWindow.webContents.on('did-finish-load', function () {
+        productFormWindow.webContents.send('getMyProductsValidation', results);
+        
+    });
+}
+
+).catch((err)=>{
+
+})
+
 })
 
 ipcMain.on('cerrarFormProduct', (e,window)=>{
@@ -271,38 +311,40 @@ ipcMain.on('registrarUsuario',(e,employee)=>{
         })
 })
 
-var userEmpleado
-ipcMain.on('loginUser',(e,userIdEmpleado)=>{
-    createProductsWindow()
 
-    mainWindow.close()
-    userEmpleado = userIdEmpleado
-    console.log('employee', userIdEmpleado)
-  
+// ipcMain.on('getMyProductsValidation', (e,msg)=>{
 
-connection.promise().query(`SELECT * FROM Product WHERE idEmployee = ${userIdEmpleado};`)
+    
+
+// })
+
+ipcMain.on('registrarProducto',(e,product)=>{
+
+    console.log('employee', product)
+    connection.query(`INSERT INTO Product(name,description, price, inStock, category,idEmployee) VALUES("${product.name}","${product.description}",${product.price},"${product.inStock}","${product.category}",${userEmpleado});`,(err,results,fields)=>{
+            console.log('PRODUCT CREATED')
+        })
+})
+
+ipcMain.on('enviarProductsDesdeElForm', (e, msg)=>{
+    productsWindow.close()
+    createProductsWindow()    
+    productFormWindow.close()
+
+
+connection.promise().query(`SELECT * FROM Product WHERE idEmployee = ${userEmpleado};`)
 .then(([results,fields])=>{
     console.log(results)
     productsWindow.webContents.on('did-finish-load', function () {
         productsWindow.webContents.send('getMyProducts', results);
         
     });
-
-   
-
-
-    // registerWindow.webContents.send('getUsuarios', results)
 }
 
 ).catch((err)=>{
 
 })
-
-
-        
 })
-
-
 
 /*==========================================================================================================
                                              END IPCMAIN                                            
@@ -368,6 +410,8 @@ connection.promise().query('SELECT * FROM User;')
 ).catch((err)=>{
 
 })
+
+
 /*==========================================================================================================
                                              END CONEXION MYSQL                                          
 ============================================================================================================*/

@@ -5,11 +5,7 @@ const tableBody = document.querySelector('#table-body')
 
 
 const thisWindow = 'Products'
-btnAddProduct.addEventListener('click',()=>{
 
-    window.api.send('abrirFormProduct','abrir')
-
-})
 
 myProducts.addEventListener('click',()=>{
     window.api.send('redirigirAProducts',thisWindow)
@@ -36,11 +32,8 @@ window.addEventListener("DOMContentLoaded",()=>{
                             <td>${data[i].name}</td>
                             <td>${data[i].price}</td>
                             <td>${data[i].description}</td>
-                            <td>${data[i].idCategory}</td>
+                            <td>${data[i].category}</td>
                             <td>${data[i].inStock}</td>
-                            <td><a class="btn btn-info"><i class="fas fa-edit"></i></a></td>
-					        <td><a class="btn btn-danger"><i class="fas fa-trash-alt"></i></a></td>
-
                        <tr/>`
     
                 tableBody.innerHTML +=row
@@ -48,16 +41,14 @@ window.addEventListener("DOMContentLoaded",()=>{
         }
         
     })
-    
-
-
-    
-
-
-
-    
 
 })
+const btnEdit =  document.querySelector('#editProduct')
+const btnDelete = document.querySelector('#deleteProduct')
 
+btnAddProduct.addEventListener('click',()=>{
 
+    window.api.send('abrirFormProduct',products)
+
+})
 
